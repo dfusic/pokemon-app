@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import { Select, List, Button, Header, Footer } from "./components";
 
-function App() {
+import fetchPokemons from "./utils/fetchPokemons";
+
+const App = () => {
+  const [pokemons, setPokemons] = useState(undefined);
+  const [selectedPokemonType, setSelectedPokemonType] = useState("");
+  const [pokemonTypes, setPokemonTypes] = useState([]);
+  const [filteredPokemons, setFilteredPokemons] = useState([]);
+
+  useEffect(() => {
+    const pokemonsData = fetchPokemons();
+    if (pokemonsData) {
+      setPokemons(pokemonsData);
+      setSelectedPokemonType("grass");
+      const allPokemonTypes = Object.keys(pokemonsData).map((pokemonType) => ({
+        value: pokemonType,
+        label: pokemonType,
+      }));
+      setPokemonTypes(allPokemonTypes);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (pokemons) {
+      setFilteredPokemons(pokemons[selectedPokemonType]);
+    }
+  }, [selectedPokemonType, pokemons]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header>
+        <h1>Pokemon App</h1>
+        <Select options={pokemonTypes} onChange={setSelectedPokemonType} />
+      </Header>
+      <List listItems={filteredPokemons} />
+      <Footer>
+        <Button onClick={() => alert('Nice one!')} label="Click Me" />
+      </Footer>
+    </>
   );
-}
+};
 
 export default App;

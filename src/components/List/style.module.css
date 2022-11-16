@@ -1,0 +1,29 @@
+.list{
+    list-style: none;
+    height: calc(100vh - 200px);
+    overflow-y: scroll;
+    padding: 0;
+    margin: 16px;
+}
+
+.listItem{
+    margin: 16px 0;
+    background-color: #eee;
+    padding: 16px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.listItemInfo{
+    list-style: none;
+    padding: 0;
+}
+
+.listItemInfo li {
+    margin: 4px 0;
+}
+
+.bold{
+    font-weight: 700;
+}
